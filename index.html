@@ -15,32 +15,39 @@
         h1 {
             margin-bottom: 50px;
         }
-        button {
+        #moveButton {
             padding: 15px 25px;
-            margin: 20px;
             font-size: 16px;
             cursor: pointer;
             position: absolute;
-            transition: top 0.2s, left 0.2s;
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 5px;
         }
         #correctButton {
-            background-color: #4CAF50;
-            color: white;
-            position: relative;
-            transition: none;
+            padding: 15px 25px;
+            font-size: 16px;
             cursor: pointer;
+            background-color: green;
+            color: white;
+            border: none;
+            border-radius: 5px;
         }
         #response {
-            margin-top: 100px;
+            margin-top: 200px;
             font-size: 24px;
             color: green;
             font-weight: bold;
+            position: relative;
+            z-index: 1;
         }
     </style>
 </head>
 <body>
     <h1>O que a gente vai fazer assim que eu chegar?</h1>
-    <button id="moveButton" style="top: 200px; left: 40%;">Sair pra jantar</button>
+    <button id="moveButton">Sair pra jantar</button>
+    <br><br>
     <button id="correctButton">Me dar a bct</button>
 
     <div id="response"></div>
@@ -50,22 +57,27 @@
         const correctButton = document.getElementById('correctButton');
         const response = document.getElementById('response');
 
-        const buttonWidth = 150; // tamanho aproximado do botão
-        const buttonHeight = 50; // tamanho aproximado do botão
+        const buttonWidth = 150;
+        const buttonHeight = 50;
 
         function moveRandomly() {
-            // Calcula limites da tela, considerando o espaço da resposta
             const windowWidth = window.innerWidth - buttonWidth;
-            const windowHeight = window.innerHeight - buttonHeight - 100; // 100px para garantir espaço para a resposta
+            const windowHeight = window.innerHeight - buttonHeight - 250; // espaço extra para a resposta
 
-            const randomX = Math.random() * windowWidth;
-            const randomY = Math.random() * (windowHeight - 200) + 100; // Mantém o botão longe da resposta
+            let randomX = Math.random() * windowWidth;
+            let randomY = Math.random() * windowHeight;
+
+            // Evita que o botão vá muito para perto da resposta
+            if (randomY > windowHeight - 150) {
+                randomY = windowHeight - 150;
+            }
 
             moveButton.style.left = `${randomX}px`;
             moveButton.style.top = `${randomY}px`;
         }
 
-        moveButton.addEventListener('mouseover', moveRandomly);
+        // Movimento infinito a cada 400ms
+        setInterval(moveRandomly, 400);
 
         correctButton.addEventListener('click', () => {
             response.textContent = 'Resposta correta!';
