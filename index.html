@@ -3,76 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pergunta Divertida</title>
+    <title>Escolha a Correta</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background-color: #f0f0f0;
             text-align: center;
+            margin-top: 100px;
+            position: relative;
+            overflow: hidden;
         }
         h1 {
-            margin-bottom: 20px;
+            margin-bottom: 50px;
         }
         button {
-            padding: 15px 30px;
-            margin: 10px;
+            padding: 15px 25px;
+            margin: 20px;
             font-size: 16px;
             cursor: pointer;
-            border: none;
-            border-radius: 5px;
-            transition: all 0.2s;
-        }
-        #botaoChato {
-            background-color: #ff4d4d;
-            color: white;
             position: absolute;
+            transition: top 0.2s, left 0.2s;
         }
-        #botaoCorreto {
+        #correctButton {
             background-color: #4CAF50;
             color: white;
+            position: relative;
+            transition: none;
+            cursor: pointer;
         }
-        #resposta {
-            margin-top: 30px;
-            font-size: 20px;
+        #response {
+            margin-top: 100px;
+            font-size: 24px;
             color: green;
             font-weight: bold;
         }
     </style>
 </head>
 <body>
-
     <h1>O que a gente vai fazer assim que eu chegar?</h1>
+    <button id="moveButton" style="top: 200px; left: 40%;">Sair pra jantar</button>
+    <button id="correctButton">Me dar a bct</button>
 
-    <button id="botaoChato">Sair pra jantar</button>
-    <button id="botaoCorreto">Me dar a bct</button>
-
-    <div id="resposta"></div>
+    <div id="response"></div>
 
     <script>
-        const botaoChato = document.getElementById('botaoChato');
-        const botaoCorreto = document.getElementById('botaoCorreto');
-        const resposta = document.getElementById('resposta');
+        const moveButton = document.getElementById('moveButton');
+        const correctButton = document.getElementById('correctButton');
+        const response = document.getElementById('response');
 
-        botaoChato.addEventListener('mouseover', () => {
-            const maxX = window.innerWidth - botaoChato.offsetWidth;
-            const maxY = window.innerHeight - botaoChato.offsetHeight;
+        const buttonWidth = 150; // tamanho aproximado do botão
+        const buttonHeight = 50; // tamanho aproximado do botão
 
-            const randomX = Math.floor(Math.random() * maxX);
-            const randomY = Math.floor(Math.random() * maxY);
+        function moveRandomly() {
+            // Calcula limites da tela, considerando o espaço da resposta
+            const windowWidth = window.innerWidth - buttonWidth;
+            const windowHeight = window.innerHeight - buttonHeight - 100; // 100px para garantir espaço para a resposta
 
-            botaoChato.style.left = `${randomX}px`;
-            botaoChato.style.top = `${randomY}px`;
-        });
+            const randomX = Math.random() * windowWidth;
+            const randomY = Math.random() * (windowHeight - 200) + 100; // Mantém o botão longe da resposta
 
-        botaoCorreto.addEventListener('click', () => {
-            resposta.innerText = 'Resposta certa!';
+            moveButton.style.left = `${randomX}px`;
+            moveButton.style.top = `${randomY}px`;
+        }
+
+        moveButton.addEventListener('mouseover', moveRandomly);
+
+        correctButton.addEventListener('click', () => {
+            response.textContent = 'Resposta correta!';
         });
     </script>
-
 </body>
 </html>
